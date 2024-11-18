@@ -646,7 +646,7 @@ def predict_from_input(model, inp):
 
 def collect_embedding_std(mt, subjects):
     alldata = []
-    for s in subjects:
+    for s in tqdm(subjects):
         inp = make_inputs(mt.tokenizer, [s])
         with nethook.Trace(mt.model, layername(mt.model, 0, "embed")) as t:
             mt.model(**inp)
