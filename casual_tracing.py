@@ -25,7 +25,7 @@ from dsets.mquake import MQuAKEPromptCompletionDataset
 torch.set_grad_enabled(False)
 
 model_name = '/data/akshat/models/gpt2-xl'
-# model_name = "/data/akshat/models/Llama-2-7b-hf"
+model_name = "/data/akshat/models/Llama-2-7b-hf"
 
 
 model_output_name = model_name.split('/')[-1]
@@ -242,8 +242,8 @@ def aggregate_probabilities_by_layer(mt, prompts, answers, noise_level, num_laye
             # print(f'prompt: {prompt}, guess: {repr(guess_text)}, correct: {repr(correct_answer)}')
 
 
-            last_token_position = len(inp["input_ids"][0]) - 1
-            tokens_to_mix = (last_token_position, last_token_position + 1)
+            last_token_position = len(inp["input_ids"][0]) - 3
+            tokens_to_mix = (last_token_position, last_token_position + 3)
             # print(f'e_range: {tokens_to_mix}')
             
             prob = trace_with_patch(
@@ -255,7 +255,6 @@ def aggregate_probabilities_by_layer(mt, prompts, answers, noise_level, num_laye
                 noise=noise_level,
             ).item()
             
-            print(prob, layername(mt.model, layer))
 
             layer_sum += prob
             valid_count += 1
